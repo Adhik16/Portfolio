@@ -1,0 +1,184 @@
+# Cybersecurity Portfolio — Project Context
+
+> **Last updated**: 2026-06-12
+> **Project path**: `c:\code\portfolio`
+> **Status**: ✅ Build-ready. All phases complete except user content (Phase 5).
+
+---
+
+## 1. Overview
+
+Building a **dark-only, neon-purple cybersecurity portfolio** for **Adhik Shakya (SOC Analyst)** using:
+
+| Technology | Version |
+|---|---|
+| Next.js (App Router) | 16.2.9 |
+| React | 19.2.4 |
+| Tailwind CSS | v4 |
+| shadcn/ui | Latest (Radix Nova preset) |
+| Three.js (+ R3F + Drei) | 0.184.0 |
+| Framer Motion | 12.40.0 |
+| react-hook-form + zod | 7.78.0 / 4.4.3 |
+| lucide-react (icons) | 1.17.0 |
+| pnpm | 11.5.2 |
+
+---
+
+## 2. Design Decisions (From User Q&A)
+
+- **Color scheme**: Neon purple (`oklch(0.62 0.22 300)` ≈ `#a855f7`) on deep near-black (`oklch(0.145 0.008 280)`)
+- **Dark-only** — no light mode, no toggle
+- **Typography**: Geist Sans (body) + Geist Mono (headings/code)
+- **3D Object**: Rotating procedural shield with lock icon, particle field, glow ring
+- **Sections**: Hero → About → Skills → Projects → Blog → Contact
+- **shadcn/ui components**: Button, Card, Badge, Input, Textarea, Sheet, Separator, Tooltip, Navigation Menu
+- **Content**: ALL PLACEHOLDER — user fills in real data later
+- **Accessibility**: WCAG AA minimum (4.5:1 contrast, visible focus rings, semantic HTML, aria labels, `prefers-reduced-motion` support)
+
+---
+
+## 3. File Inventory
+
+### Config Files
+| File | Status | Notes |
+|---|---|---|
+| `package.json` | ✅ Done | All dependencies installed |
+| `tsconfig.json` | ✅ Done | Path alias `@/*` → `./*` |
+| `next.config.ts` | ✅ Done | Minimal — no special config needed |
+| `postcss.config.mjs` | ✅ Done | `@tailwindcss/postcss` plugin |
+| `components.json` | ✅ Done | shadcn config (Radix Nova, neutral base) |
+| `pnpm-workspace.yaml` | ⚠️ Corrupt | Auto-generated incorrectly — see Known Issues |
+| `.npmrc` | Exists | Contains private config |
+
+### Core App Files
+| File | Status | Notes |
+|---|---|---|
+| `app/globals.css` | ✅ Done | Full neon-purple CSS variable system + `@theme inline`, custom animations (`glow-pulse`, `float`), focus-visible rings, `prefers-reduced-motion` |
+| `app/layout.tsx` | ✅ Done | Metadata set, skip-to-content link, Navbar+Footer wrapped in TooltipProvider, favicon referenced |
+| `app/page.tsx` | ✅ Done | Assembles all 6 sections in order |
+| `app/loading.tsx` | ✅ NEW | Neon-purple spinner with animated dots for route transitions |
+| `app/error.tsx` | ✅ NEW | Error boundary with retry button, error digest display, cybersecurity-themed |
+| `app/not-found.tsx` | ✅ NEW | Glitch-style 404 page with terminal icon, back-home + report links |
+
+### Layout Components
+| File | Status | Notes |
+|---|---|---|
+| `components/layout/navbar.tsx` | ✅ Done | Fixed top, glassmorphism on scroll, IntersectionObserver scroll-spy, mobile Sheet drawer |
+| `components/layout/footer.tsx` | ✅ Done | Social links (placeholder URLs), back-to-top button |
+
+### Three.js
+| File | Status | Notes |
+|---|---|---|
+| `components/three/rotating-shield.tsx` | ✅ Done | Procedural ShapeGeometry+ExtrudeGeometry shield, LockIcon, Particles (200 points, precomputed), GlowRing torus, 3 lights. **Now respects `prefers-reduced-motion`** via `useReducedMotion()` hook |
+
+### Section Components
+| File | Status | Notes |
+|---|---|---|
+| `components/sections/section-heading.tsx` | ✅ Done | Reusable `# Title` with purple `#` prefix, animated via framer-motion |
+| `components/sections/hero.tsx` | ✅ Done | Full-viewport, name+title left, 3D shield right (dynamic import, no SSR), CTA buttons, scroll indicator |
+| `components/sections/about.tsx` | ✅ Done | Avatar placeholder, stats cards (5+/3+/20+), bio text, focus area badges |
+| `components/sections/skills.tsx` | ✅ Done | 6 category cards (Network, SIEM, IR, Threat Intel, Pentesting, Tools), each with icon + badges |
+| `components/sections/projects.tsx` | ✅ Done | 6 project cards (SOC Dashboard featured spanning 2 cols), GitHub/live links |
+| `components/sections/blog.tsx` | ✅ Done | 4 blog post cards with date, read time, excerpt, tags |
+| `components/sections/contact.tsx` | ✅ Done | Zod-validated form (name/email/subject/message), success state, contact info sidebar |
+
+### shadcn/ui Generated Components
+| File | Status |
+|---|---|
+| `components/ui/button.tsx` | ✅ |
+| `components/ui/card.tsx` | ✅ |
+| `components/ui/badge.tsx` | ✅ |
+| `components/ui/input.tsx` | ✅ |
+| `components/ui/textarea.tsx` | ✅ |
+| `components/ui/sheet.tsx` | ✅ |
+| `components/ui/separator.tsx` | ✅ |
+| `components/ui/tooltip.tsx` | ✅ |
+| `components/ui/navigation-menu.tsx` | ✅ |
+| `lib/utils.ts` (cn helper) | ✅ |
+
+---
+
+## 4. Known Issues & Fixes (ALL RESOLVED)
+
+### Issue 1: pnpm workspace config corruption ✅ FIXED
+- **Symptom**: `[ERROR] Cannot destructure property 'manifest' of 'manifestsByPath[rootDir]' as it is undefined.`
+- **Fix**: `pnpm-workspace.yaml` now contains valid `onlyBuiltDependencies:` syntax
+- **Ongoing**: The file may regenerate. If `pnpm add` fails, delete the workspace yaml first.
+
+### Issue 2: OneDrive sync interference ✅ RESOLVED
+- Project moved to `c:\code\portfolio` — no OneDrive interference
+
+### Issue 3: THREE.DisableDeprecationWarnings ✅ FIXED
+- Removed from `rotating-shield.tsx` — doesn't exist in Three.js 0.184
+
+### Issue 4: Math.random() in useMemo ✅ FIXED
+- Particle positions precomputed at module level (safe because component is client-only via dynamic import)
+
+### Issue 5: Unused imports ✅ FIXED
+- Removed `usePathname`, `X` from navbar; `Download` from about
+
+---
+
+## 5. CSS Variable System (globals.css)
+
+```
+--background:     oklch(0.145 0.008 280)   → deep near-black
+--foreground:     oklch(0.985 0 0)         → near-white
+--primary:        oklch(0.62 0.22 300)     → neon purple (#a855f7-ish)
+--primary-fg:     oklch(0.985 0 0)
+--card:           oklch(0.17 0.01 280)
+--muted:          oklch(0.22 0.01 280)
+--muted-fg:       oklch(0.65 0.02 280)
+--border:         oklch(0.28 0.03 280)
+--ring:           oklch(0.62 0.22 300)     → same as primary
+--destructive:    oklch(0.6 0.22 20)       → red
+```
+
+**Contrast strategy**: Purple (`--primary`) used ONLY for accents, borders, glow. Body text is always `--foreground` (near-white on near-black = ~19:1 ratio, far exceeding 4.5:1).
+
+---
+
+## 6. Build & Verification Status (2026-06-12)
+
+### Verified ✅
+- `pnpm build` — passes with 0 errors (Turbopack)
+- `pnpm lint` — passes with 0 warnings
+- `pnpm dev` — starts at `http://localhost:3000`
+- All 6 sections render: Hero, About, Skills, Projects, Blog, Contact
+- 3D shield renders in hero (dynamic import, Canvas loaded)
+- Navbar scroll-spy highlights active section
+- Mobile hamburger menu opens/closes (Sheet drawer)
+- Contact form validates and shows success state ("Message Sent!")
+- Footer social links and back-to-top button work
+- Tab navigation works through all interactive elements
+- Heading hierarchy: H1 → H2 → H3 correct throughout
+- All images have alt text
+- Responsive at 375px (mobile), 768px (tablet), 1280px+ (desktop)
+- `prefers-reduced-motion` CSS: scroll-behavior switches to `auto`
+- `prefers-reduced-motion` JS: Three.js shield/particles/ring respect the setting via `useReducedMotion()` hook
+
+### Pending User Actions
+- Run Lighthouse audit (Chrome DevTools) — target 95+ Accessibility
+- Run axe DevTools browser extension
+- Test with screen reader (NVDA/Narrator)
+- Fill in all placeholder content (see `PLACEHOLDERS.md`)
+- Replace `metadataBase` URL (`https://your-domain.com` → real domain)
+- Optional: Add `public/og-image.png` (1200×630) for social previews
+- Optional: Connect contact form to backend (Web3Forms/Formspree)
+- Optional: Add analytics
+- Deploy to Vercel
+
+---
+
+## 7. Quick Start
+
+```powershell
+# Dev server
+pnpm dev
+
+# Production build
+pnpm build
+
+# Lint
+pnpm lint
+```
