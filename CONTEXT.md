@@ -1,8 +1,13 @@
 # Cybersecurity Portfolio — Project Context
 
+<<<<<<< HEAD
 > **Last updated**: 2026-06-12
 > **Project path**: `c:\code\portfolio`
 > **Status**: ✅ Build-ready. All phases complete except user content (Phase 5).
+=======
+> **Last updated**: 2026-06-11
+> **Project path**: `c:\Users\asus\OneDrive\Documents\Portfolio`
+>>>>>>> aeff9a0 (Second commit)
 
 ---
 
@@ -53,12 +58,18 @@ Building a **dark-only, neon-purple cybersecurity portfolio** for **Adhik Shakya
 ### Core App Files
 | File | Status | Notes |
 |---|---|---|
+<<<<<<< HEAD
 | `app/globals.css` | ✅ Done | Full neon-purple CSS variable system + `@theme inline`, custom animations (`glow-pulse`, `float`), focus-visible rings, `prefers-reduced-motion` |
 | `app/layout.tsx` | ✅ Done | Metadata set, skip-to-content link, Navbar+Footer wrapped in TooltipProvider, favicon referenced |
 | `app/page.tsx` | ✅ Done | Assembles all 6 sections in order |
 | `app/loading.tsx` | ✅ NEW | Neon-purple spinner with animated dots for route transitions |
 | `app/error.tsx` | ✅ NEW | Error boundary with retry button, error digest display, cybersecurity-themed |
 | `app/not-found.tsx` | ✅ NEW | Glitch-style 404 page with terminal icon, back-home + report links |
+=======
+| `app/globals.css` | ✅ Done | Full neon-purple CSS variable system + `@theme inline`, custom animations (`glow-pulse`, `float`), focus-visible rings |
+| `app/layout.tsx` | ✅ Done | Metadata set, skip-to-content link, Navbar+Footer wrapped in TooltipProvider |
+| `app/page.tsx` | ✅ Done | Assembles all 6 sections in order |
+>>>>>>> aeff9a0 (Second commit)
 
 ### Layout Components
 | File | Status | Notes |
@@ -69,7 +80,13 @@ Building a **dark-only, neon-purple cybersecurity portfolio** for **Adhik Shakya
 ### Three.js
 | File | Status | Notes |
 |---|---|---|
+<<<<<<< HEAD
 | `components/three/rotating-shield.tsx` | ✅ Done | Procedural ShapeGeometry+ExtrudeGeometry shield, LockIcon, Particles (200 points, precomputed), GlowRing torus, 3 lights. **Now respects `prefers-reduced-motion`** via `useReducedMotion()` hook |
+=======
+| `components/three/rotating-shield.tsx` | ✅ Done | Procedural ShapeGeometry+ExtrudeGeometry shield, LockIcon, Particles (200 points), GlowRing torus, 3 lights |
+| `components/three/network-globe.tsx` | ✅ Done | Interactive globe with continents, grid, data arcs, packets, atmosphere, orbital ring, stars. Hands imported from hand-models.tsx |
+| `components/three/hand-models.tsx` | ✅ Done | **NEW** — 5 hand variants: cupping-refined, defensive-palm, cybernetic-claw, energy-wireframe, pointing-command. Configurable via HandVariant interface and HAND_PRESETS. Hero has variant toggle for preview.
+>>>>>>> aeff9a0 (Second commit)
 
 ### Section Components
 | File | Status | Notes |
@@ -98,6 +115,7 @@ Building a **dark-only, neon-purple cybersecurity portfolio** for **Adhik Shakya
 
 ---
 
+<<<<<<< HEAD
 ## 4. Known Issues & Fixes (ALL RESOLVED)
 
 ### Issue 1: pnpm workspace config corruption ✅ FIXED
@@ -116,6 +134,32 @@ Building a **dark-only, neon-purple cybersecurity portfolio** for **Adhik Shakya
 
 ### Issue 5: Unused imports ✅ FIXED
 - Removed `usePathname`, `X` from navbar; `Download` from about
+=======
+## 4. Known Issues & Fixes
+
+### Issue 1: pnpm workspace config corruption
+- **Symptom**: `[ERROR] Cannot destructure property 'manifest' of 'manifestsByPath[rootDir]' as it is undefined.`
+- **Cause**: `pnpm-workspace.yaml` gets auto-generated with broken `allowBuilds:` syntax by shadcn init
+- **Fix applied**: Delete `pnpm-workspace.yaml` before running `pnpm install`, then re-add:
+  ```yaml
+  onlyBuiltDependencies:
+    - sharp
+    - unrs-resolver
+  ```
+- **Ongoing**: The file may regenerate. If `pnpm add` fails with this error, delete the workspace yaml first.
+
+### Issue 2: OneDrive sync interference
+- **Symptom**: Build/dev failures, file locking issues
+- **Cause**: `OneDrive\Documents\Portfolio` path — OneDrive syncing can lock files during builds, corrupt `node_modules`
+- **Fix**: Pause OneDrive sync while working, or better: move project outside OneDrive to e.g. `C:\Dev\Portfolio`
+- **Recommendation**: **Start new session by cloning/moving to `C:\Dev\Portfolio`**
+
+### Issue 3: shadcn init required interactive input
+- The `pnpm dlx shadcn@latest init` command prompts for:
+  1. Component library → select **Radix**
+  2. Preset → select **Nova**
+- User must answer these interactively
+>>>>>>> aeff9a0 (Second commit)
 
 ---
 
@@ -138,6 +182,7 @@ Building a **dark-only, neon-purple cybersecurity portfolio** for **Adhik Shakya
 
 ---
 
+<<<<<<< HEAD
 ## 6. Build & Verification Status (2026-06-12)
 
 ### Verified ✅
@@ -182,3 +227,43 @@ pnpm build
 # Lint
 pnpm lint
 ```
+=======
+## 6. What Works vs What Doesn't
+
+### Working ✅
+- All source files are written and syntactically correct
+- Tailwind v4 with shadcn CSS variable system configured
+- All 6 sections composed in `app/page.tsx`
+- Three.js procedural shield with auto-rotation, particles, glow
+- Framer Motion scroll-triggered animations on all sections
+- Contact form with Zod validation
+- Mobile-responsive navbar with Sheet drawer
+- Skip-to-content accessibility link
+
+### Not Yet Verified ⚠️
+- **Build/dev server** — has not run successfully due to OneDrive + pnpm issues
+- **Runtime behavior** — animations, 3D rendering, scroll-spy not tested in browser
+- **Accessibility audit** — Lighthouse/axe scan not run
+- **Responsive testing** — not verified at real breakpoints
+- **`prefers-reduced-motion`** — implemented but not tested
+
+---
+
+## 7. Quick Start (for new session)
+
+```powershell
+# 1. Move project OUT of OneDrive
+# Copy entire Portfolio folder to C:\Dev\Portfolio
+
+# 2. Delete corrupt workspace file
+Remove-Item pnpm-workspace.yaml -Force -ErrorAction SilentlyContinue
+
+# 3. Clean install
+pnpm install
+
+# 4. Run dev server
+pnpm dev
+```
+
+If `pnpm install` fails with manifest error, delete `pnpm-workspace.yaml` and `node_modules`, then retry.
+>>>>>>> aeff9a0 (Second commit)

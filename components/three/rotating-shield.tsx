@@ -1,5 +1,6 @@
 "use client";
 
+<<<<<<< HEAD
 import { useRef, useMemo, useSyncExternalStore } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
@@ -17,6 +18,12 @@ function useReducedMotion(): boolean {
   );
 }
 
+=======
+import { useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+
+>>>>>>> aeff9a0 (Second commit)
 /** Build a procedural shield shape using ShapeGeometry + ExtrudeGeometry */
 function createShieldShape(): THREE.Shape {
   const shape = new THREE.Shape();
@@ -78,7 +85,10 @@ function LockIcon() {
 function ShieldMesh() {
   const groupRef = useRef<THREE.Group>(null);
   const shape = useMemo(() => createShieldShape(), []);
+<<<<<<< HEAD
   const reducedMotion = useReducedMotion();
+=======
+>>>>>>> aeff9a0 (Second commit)
 
   const extrudeSettings = useMemo(
     () => ({
@@ -93,7 +103,11 @@ function ShieldMesh() {
   );
 
   useFrame((_, delta) => {
+<<<<<<< HEAD
     if (groupRef.current && !reducedMotion) {
+=======
+    if (groupRef.current) {
+>>>>>>> aeff9a0 (Second commit)
       groupRef.current.rotation.y += delta * 0.3;
     }
   });
@@ -131,6 +145,7 @@ function ShieldMesh() {
   );
 }
 
+<<<<<<< HEAD
 /** Particle field positions precomputed at module load (client-only via dynamic import) */
 const PARTICLE_COUNT = 200;
 const PARTICLE_POSITIONS = (() => {
@@ -152,6 +167,24 @@ function Particles({ count = PARTICLE_COUNT }: { count?: number }) {
 
   useFrame((_, delta) => {
     if (ref.current && !reducedMotion) {
+=======
+/** Floating particle field for depth */
+function Particles({ count = 200 }: { count?: number }) {
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 8;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 8;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 5;
+    }
+    return pos;
+  }, [count]);
+
+  const ref = useRef<THREE.Points>(null);
+
+  useFrame((_, delta) => {
+    if (ref.current) {
+>>>>>>> aeff9a0 (Second commit)
       ref.current.rotation.y += delta * 0.05;
       ref.current.rotation.x += delta * 0.03;
     }
@@ -181,10 +214,16 @@ function Particles({ count = PARTICLE_COUNT }: { count?: number }) {
 /** Glow ring around the shield */
 function GlowRing() {
   const ref = useRef<THREE.Mesh>(null);
+<<<<<<< HEAD
   const reducedMotion = useReducedMotion();
 
   useFrame((_, delta) => {
     if (ref.current && !reducedMotion) {
+=======
+
+  useFrame((_, delta) => {
+    if (ref.current) {
+>>>>>>> aeff9a0 (Second commit)
       ref.current.rotation.z += delta * 0.15;
       ref.current.rotation.x += delta * 0.1;
     }

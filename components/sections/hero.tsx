@@ -5,6 +5,13 @@ import { ArrowDown, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 
+<<<<<<< HEAD
+=======
+// ── PREVIEW TOGGLE ──────────────────────────────────────────
+const USE_NETWORK_GLOBE = true;
+// ────────────────────────────────────────────────────────────
+
+>>>>>>> aeff9a0 (Second commit)
 const RotatingShield = dynamic(
   () => import("@/components/three/rotating-shield"),
   {
@@ -17,13 +24,32 @@ const RotatingShield = dynamic(
   }
 );
 
+<<<<<<< HEAD
+=======
+const NetworkGlobe = dynamic(
+  () => import("@/components/three/network-globe"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full min-h-[400px] md:min-h-[500px] flex items-center justify-center">
+        <div className="h-16 w-16 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin" />
+      </div>
+    ),
+  }
+);
+
+>>>>>>> aeff9a0 (Second commit)
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: { staggerChildren: 0.15, delayChildren: 0.2 },
   },
+<<<<<<< HEAD
 } as const;
+=======
+};
+>>>>>>> aeff9a0 (Second commit)
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -32,7 +58,11 @@ const itemVariants = {
     y: 0,
     transition: { duration: 0.6, ease: "easeOut" as const },
   },
+<<<<<<< HEAD
 } as const;
+=======
+};
+>>>>>>> aeff9a0 (Second commit)
 
 export function Hero() {
   return (
@@ -45,15 +75,25 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/95 pointer-events-none" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/10 blur-3xl pointer-events-none" />
 
+<<<<<<< HEAD
       <div className="relative z-10 mx-auto max-w-7xl w-full px-6 py-20">
         <motion.div
           className="grid lg:grid-cols-2 gap-12 items-center"
+=======
+      <div className="relative z-10 mx-auto max-w-7xl w-full px-6 py-20 h-full">
+        <motion.div
+          className="h-full"
+>>>>>>> aeff9a0 (Second commit)
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           {/* Left: Text content */}
+<<<<<<< HEAD
           <div className="flex flex-col gap-6">
+=======
+          <div className="flex flex-col gap-6 max-w-[42%]">
+>>>>>>> aeff9a0 (Second commit)
             <motion.div variants={itemVariants}>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-mono">
                 <ShieldAlert className="h-4 w-4" />
@@ -111,6 +151,7 @@ export function Hero() {
             </motion.div>
           </div>
 
+<<<<<<< HEAD
           {/* Right: 3D Shield */}
           <motion.div
             variants={itemVariants}
@@ -119,6 +160,14 @@ export function Hero() {
             <div className="w-full max-w-[500px]">
               <RotatingShield />
             </div>
+=======
+          {/* Right: 3D Scene — absolutely positioned to cover right side */}
+          <motion.div
+            variants={itemVariants}
+            className="absolute right-0 top-0 w-[55%] h-full"
+          >
+            {USE_NETWORK_GLOBE ? <NetworkGlobe /> : <RotatingShield />}
+>>>>>>> aeff9a0 (Second commit)
           </motion.div>
         </motion.div>
       </div>
@@ -128,9 +177,15 @@ export function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
+<<<<<<< HEAD
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" as const }}
+=======
+        className="absolute bottom-2 left-1/2 -translate-x-1/2"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+>>>>>>> aeff9a0 (Second commit)
         aria-hidden="true"
       >
         <ArrowDown className="h-5 w-5 text-muted-foreground" />
